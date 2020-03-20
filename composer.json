@@ -1,0 +1,13 @@
+{
+    "config": {
+        "vendor-dir": "composer/vendor"
+    },
+    "require": {
+        "joshcam/mysqli-database-class": "^v2.9.3",
+    },
+    "scripts": {
+    },
+    "require-dev": {
+        "heroku/heroku-buildpack-php" : "v172"
+    }
+}
