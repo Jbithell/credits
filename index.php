@@ -1,5 +1,6 @@
 <?php
 require_once 'config.php';
+header("Access-Control-Allow-Origin: *");
 function creditsanitizestring($var) {
     $var = strip_tags($var);
     $var = htmlentities($var);
