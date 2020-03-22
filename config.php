@@ -2,7 +2,7 @@
 require_once(__DIR__ . '/vendor/autoload.php'); //Composer
 date_default_timezone_set('Europe/London');
 
-$conn = new mysqli(getenv('DB_HOSTNAME'), getenv('DB_DATABASE'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
+$conn = new mysqli(getenv('DB_HOSTNAME'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'),getenv('DB_DATABASE'));
 if ($conn->connect_error) {
 	try {
 		header('Location: https://error.jbithell.com/errors/database.html');
@@ -13,5 +13,5 @@ if ($conn->connect_error) {
 
 
 $GLOBALS['CONN'] = $conn;
-$DBLIB = new MysqliDb ($GLOBALS['CONN']);
+$DBLIB = new MysqliDb ($conn);
 ?>
