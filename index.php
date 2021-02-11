@@ -1,43 +1,4 @@
 <?php
-require_once 'config.php';
-header("Access-Control-Allow-Origin: *");
-function creditsanitizestring($var) {
-    $var = strip_tags($var);
-    $var = htmlentities($var);
-    $var = stripslashes($var);
-    return $var;
-}
-function buildLink($var,$value) {
-	$output = $_GET;
-	$output[$var] = $value;
-	return http_build_query ($output);
-}
-
-$types = [1 => "Theatre", 2 => "Radio", 3 => "TV"];
-
-$DBLIB->orderBy("credits_types_sort", "ASC");
-
-$creditTypes = $DBLIB->get("credits_types");
-
-$DBLIB->orderBy("credits_sub_types_subof", "ASC");
-$DBLIB->orderBy("credits_sub_types_sort", "ASC");
-$creditSubTypesDB = $DBLIB->get("credits_sub_types");
-$creditSubTypes = [];
-foreach ($creditSubTypesDB as $creditSubType) {
-	$creditSubTypes[$creditSubType['credit_sub_types_id']] = $creditSubType;
-}
-
-$DBLIB->orderBy("credits_startDate", "ASC");
-$DBLIB->orderBy("credits_name", "ASC");
-$DBLIB->where("credits_show", "1");
-if (isset($_GET['type'])) $DBLIB->where("credits_type", $DBLIB->escape(creditsanitizestring($_GET['type'])));
-if (isset($_GET['forceImage'])) $DBLIB->where("credits_images IS NOT NULL");
-if (!isset($_GET['future'])) $DBLIB->where("credits_startDate <= CURDATE()");
-if (isset($_GET['venue'])) $DBLIB->where("credits_venue", $DBLIB->escape(creditsanitizestring($_GET['venue'])));
-if (isset($_GET['director'])) $DBLIB->where("credits_subTitle_director", $DBLIB->escape(creditsanitizestring($_GET['director'])));
-if (isset($_GET['subcredit'])) $DBLIB->where("FIND_IN_SET('" . $DBLIB->escape(creditsanitizestring($_GET['subcredit'])) . "',credits_sub_types_id_str)>0");
-$credits = $DBLIB->get("credits",null, ["credits.*"]);
-
 if (isset($_GET['json'])) {
 	$OUTPUT = [];
 	$OUTPUT['TYPES'] = $types;
